@@ -1,5 +1,111 @@
-<html>
-  <body>
-    <h1>helo suri</h1>
-  </body>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Portal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .login-box {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      width: 300px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #4285F4;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 15px;
+    }
+    button:hover {
+      background: #3367D6;
+    }
+    .msg {
+      margin-top: 12px;
+      font-size: 0.9em;
+    }
+    .error {
+      color: red;
+    }
+    .success {
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button onclick="login()">Masuk</button>
+    <div id="msg" class="msg"></div>
+  </div>
+
+  <script>
+    // Ganti dengan URL Web App kamu
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbyjR1omMfTa9wCYRUha4UT5hAhocdS4uQnU_lljIKXtN2bpV_V8XD1-g1acHpDrpYc/exec";
+
+    function login() {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+      const msgBox = document.getElementById("msg");
+
+      msgBox.textContent = "Memproses login...";
+      msgBox.className = "msg";
+
+      const formData = new FormData();
+      formData.append("username", user);
+      formData.append("password", pass);
+
+      fetch(webAppUrl, {
+        method: "POST",
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          msgBox.textContent = "Selamat datang, " + data.nama;
+          msgBox.className = "msg success";
+          setTimeout(() => {
+            window.location.href = "https://sites.google.com/view/kip-uin25"; 
+          }, 1500);
+        } else {
+          msgBox.textContent = "Login gagal, periksa username/password!";
+          msgBox.className = "msg error";
+        }
+      })
+      .catch(err => {
+        msgBox.textContent = "Terjadi error: " + err;
+        msgBox.className = "msg error";
+      });
+    }
+  </script>
+</body>
 </html>
